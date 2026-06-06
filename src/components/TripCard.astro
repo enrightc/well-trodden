@@ -1,0 +1,110 @@
+---
+interface Props {
+  region: string;
+  title: string;
+  summary: string;
+  duration: string;
+  tripType: string;
+  image: string;
+  href?: string;
+}
+
+const { region, title, summary, duration, tripType, image, href = '#' } = Astro.props;
+---
+
+<a href={href} class="card">
+  <div class="photo">
+    <img src={image} alt={title} loading="lazy" />
+  </div>
+  <div class="body">
+    <span class="region">{region}</span>
+    <h2 class="title">{title}</h2>
+    <p class="summary">{summary}</p>
+    <div class="pills">
+      <span class="pill">{duration}</span>
+      <span class="pill">{tripType}</span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: block;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(26, 25, 22, 0.08), 0 4px 16px rgba(26, 25, 22, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(26, 25, 22, 0.1), 0 12px 32px rgba(26, 25, 22, 0.1);
+  }
+
+  .photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover .photo img {
+    transform: scale(1.03);
+  }
+
+  .body {
+    padding: 1.5rem;
+  }
+
+  .region {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+
+  .summary {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--stone);
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+  }
+
+  .pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--stone);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.25rem 0.75rem;
+  }
+</style>

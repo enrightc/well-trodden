@@ -1,17 +1,188 @@
 ---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import TripCard from "../components/TripCard.astro";
 
+const trips = [
+  {
+    region: "Central America",
+    title: "Guatemala & Belize",
+    summary:
+      "Two weeks, two countries. Volcanoes to Mayan ruins to snorkelling the barrier reef.",
+    duration: "16 days",
+    tripType: "Shuttle & hire car",
+    image: "https://picsum.photos/seed/wt-guate/800/600",
+    href: "/trips/guatemala-belize",
+  },
+  {
+    region: "North Atlantic",
+    title: "Iceland",
+    summary:
+      "A campervan loop of the Ring Road — hot springs, black sand, and very long days.",
+    duration: "10 days",
+    tripType: "Campervan",
+    image: "https://picsum.photos/seed/wt-iceland/800/600",
+    href: "/trips/iceland",
+  },
+  {
+    region: "Middle East",
+    title: "Jordan",
+    summary:
+      "Petra, Wadi Rum, and the Dead Sea — driven at our own pace, no tour groups.",
+    duration: "10 days",
+    tripType: "Hire car",
+    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    href: "/trips/jordan",
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="Well Trodden">
+  <Nav />
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Well Trodden</h1>
+      <p>
+        No fluff. No package tours. Just the full story of trips we actually
+        did.
+      </p>
+    </div>
+  </section>
+
+  <section class="trips">
+    <span class="section-label">Trips</span>
+    <div class="grid">
+      {trips.map((trip) => <TripCard {...trip} />)}
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-wordmark">Well Trodden</span>
+    <span class="footer-strapline">Self-directed trips, honestly told.</span>
+  </footer>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 500px;
+    background-image: url("/jungle-pool.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    padding: 0 1.5rem;
+  }
+
+  .hero-content h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-content p {
+    font-family: var(--font-sans);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.88;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Trips section */
+  .trips {
+    background: var(--paper);
+    padding: 6rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-bottom: 2.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .footer-strapline {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.03em;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .trips {
+      padding: 4rem 1.25rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>

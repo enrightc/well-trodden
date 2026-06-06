@@ -1,0 +1,85 @@
+---
+---
+
+<nav id="site-nav">
+  <a href="/" class="wordmark">Well Trodden</a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/trips">Trips</a></li>
+    <li><a href="/map">Map</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+</nav>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
+    color: #fff;
+  }
+
+  nav.scrolled {
+    background: var(--paper);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+
+  .wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: inherit;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 2.25rem;
+  }
+
+  ul a {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  ul a:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    nav {
+      padding: 1rem 1.25rem;
+    }
+
+    ul {
+      gap: 1.25rem;
+    }
+  }
+</style>
