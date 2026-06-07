@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import MapHero from "../components/MapHero.astro";
 import TripCard from "../components/TripCard.astro";
 
 const trips = [
@@ -40,15 +41,7 @@ const trips = [
 <Base title="Well Trodden">
   <Nav />
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Well Trodden</h1>
-      <p>
-        No fluff. No package tours. Just the full story of trips we actually
-        did.
-      </p>
-    </div>
-  </section>
+  <MapHero />
 
   <section class="trips">
     <span class="section-label">Trips</span>
@@ -64,54 +57,6 @@ const trips = [
 </Base>
 
 <style>
-  /* Hero */
-  .hero {
-    position: relative;
-    height: 100svh;
-    min-height: 500px;
-    background-image: url("/jungle-pool.webp");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    color: #fff;
-    padding: 0 1.5rem;
-  }
-
-  .hero-content h1 {
-    font-family: var(--font-serif);
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-content p {
-    font-family: var(--font-sans);
-    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    opacity: 0.88;
-    max-width: 480px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
   /* Trips section */
   .trips {
     background: var(--paper);
