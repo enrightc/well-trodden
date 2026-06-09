@@ -1,0 +1,71 @@
+---
+import Base from "./Base.astro";
+import Nav from "../components/Nav.astro";
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={frontmatter.title}>
+  <Nav />
+
+  <div class="hero" style={`background-image: url('${frontmatter.heroImage}')`}>
+    <div class="hero-overlay">
+      <p class="region">{frontmatter.region}</p>
+      <h1>{frontmatter.title}</h1>
+    </div>
+  </div>
+</Base>
+
+<article class="prose">
+  <slot />
+</article>
+
+<style>
+  .hero {
+    height: 60svh;
+    min-height: 300px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.1) 60%,
+      transparent 100%
+    );
+  }
+
+  .hero-overlay {
+    color: #fff;
+    z-index: 1;
+    padding: 3rem 4rem;
+    max-width: 900px;
+  }
+
+  .region {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-overlay h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    margin-bottom: 1.5rem;
+  }
+</style>
