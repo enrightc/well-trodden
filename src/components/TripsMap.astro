@@ -1,0 +1,134 @@
+---
+interface Props {
+  mobileImage?: string;
+}
+const { mobileImage = "" } = Astro.props;
+---
+
+<div class="map-hero">
+  <div id="hero-map" class="map-canvas" aria-hidden="true"></div>
+
+  <div
+    class="mobile-photo"
+    style={mobileImage ? `background-image: url('${mobileImage}')` : ""}
+    aria-hidden="true"
+  >
+  </div>
+</div>
+
+<script>
+  import Map from "ol/Map";
+  import View from "ol/View";
+  import VectorLayer from "ol/layer/Vector";
+  import VectorSource from "ol/source/Vector";
+  import GeoJSON from "ol/format/GeoJSON";
+  import { Fill, Stroke, Style } from "ol/style";
+
+  const TRIPS = {
+    Guatemala: "/trips/guatemala-belize",
+    Belize: "/trips/guatemala-belize",
+    Iceland: "/trips/iceland",
+    Jordan: "/trips/jordan",
+    Malaysia: "/trips/malaysia",
+    Japan: "/trips/japan",
+    Peru: "/trips/peru",
+    Bolivia: "/trips/Bolivia",
+    Italy: "/trips/italy",
+    Poland: "/trips/poland",
+    Portugal: "/trips/portugal",
+  };
+
+  const VISITED = new Set(Object.keys(TRIPS));
+
+  const BORDER = new Stroke({ color: "rgba(26, 25, 22, 0.25)", width: 0.5 });
+
+  const unvisitedStyle = new Style({
+    fill: new Fill({ color: "#E8E4DE" }),
+    stroke: BORDER,
+  });
+
+  const visitedStyle = new Style({
+    fill: new Fill({ color: "#6B6860" }),
+    stroke: BORDER,
+  });
+
+  const hoverStyle = new Style({
+    fill: new Fill({ color: "#3d3c38" }),
+    stroke: BORDER,
+  });
+
+  function styleCountry(feature) {
+    return VISITED.has(feature.get("name")) ? visitedStyle : unvisitedStyle;
+  }
+
+  const source = new VectorSource({
+    format: new GeoJSON(),
+    url: "/data/world.geojson",
+  });
+
+  const vectorLayer = new VectorLayer({ source, style: styleCountry });
+
+  const map = new Map({
+    target: "hero-map",
+    layers: [vectorLayer],
+    controls: [],
+    interactions: [],
+    view: new View({
+      projection: "EPSG:4326",
+      center: [10, 20],
+      zoom: 2,
+    }),
+  });
+
+  source.once("featuresloadend", () => {
+    map.getView().fit([-168, -58, 178, 80], { padding: [32, 32, 32, 32] });
+  });
+</script>
+
+<style>
+  .map-hero {
+    margin-top: 5rem;
+    position: relative;
+    height: 50svh;
+    min-height: 500px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .map-canvas,
+  .mobile-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-canvas {
+    background: var(--paper);
+  }
+
+  .mobile-photo {
+    display: none;
+    background-color: var(--ink);
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (max-width: 768px) {
+    .map-canvas {
+      display: none;
+    }
+
+    .mobile-photo {
+      display: block;
+    }
+
+    .hero-text h1 {
+      color: #fff;
+    }
+
+    .hero-text p {
+      color: rgba(255, 255, 255, 0.85);
+    }
+  }
+</style>

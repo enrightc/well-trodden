@@ -1,11 +1,78 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import TripsMap from "../components/TripsMap.astro";
+import TripCard from "../components/TripCard.astro";
+import { trips } from "../data/trips.js";
+
+const pageTitle = "Trips";
+
+const centralAmericaTrips = trips.filter(
+  (trip) => trip.region === "Central America",
+);
+const middleEastTrips = trips.filter((trip) => trip.region === "Middle East");
+const europeTrips = trips.filter((trip) => trip.region === "Europe");
+const southAmericaTrips = trips.filter(
+  (trip) => trip.region === "South America",
+);
+const AsiaTrips = trips.filter((trip) => trip.region === "Asia");
 ---
 
 <Base>
   <Nav />
   <section style="padding-top: 5rem;">
-    Page under construction. Check back soon for a full list of trips.
+    <h2 class="section-title">{pageTitle}</h2>
+    <TripsMap />
+
+    <div class="trip-grids">
+      <div class="region">
+        <h2>Central America</h2>
+        <div class="trip-grid">
+          {centralAmericaTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+
+      <div class="region">
+        <h2>Middle East</h2>
+        <div class="trip-grid">
+          {middleEastTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+
+      <div class="region">
+        <h2>Europe</h2>
+        <div class="trip-grid">
+          {europeTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+
+      <div class="Asia">
+        <h2>Asia</h2>
+        <div class="trip-grid">
+          {centralAmericaTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+    </div>
   </section>
 </Base>
+
+<style>
+  section {
+    padding: 8rem 2.5rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .trip-grids {
+    margin-top: 4rem;
+  }
+
+  .region {
+    margin-bottom: 4rem;
+  }
+  .trip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+</style>

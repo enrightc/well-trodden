@@ -3,38 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import TripCard from "../components/TripCard.astro";
 
-const trips = [
-  {
-    region: "Central America",
-    title: "Guatemala & Belize",
-    summary:
-      "Two weeks, two countries. Volcanoes to Mayan ruins to snorkelling the barrier reef.",
-    duration: "16 days",
-    tripType: "Shuttle & hire car",
-    image: "https://picsum.photos/seed/wt-guate/800/600",
-    href: "/trips/guatemala-belize",
-  },
-  {
-    region: "North Atlantic",
-    title: "Iceland",
-    summary:
-      "A campervan loop of the Ring Road — hot springs, black sand, and very long days.",
-    duration: "10 days",
-    tripType: "Campervan",
-    image: "https://picsum.photos/seed/wt-iceland/800/600",
-    href: "/trips/iceland",
-  },
-  {
-    region: "Middle East",
-    title: "Jordan",
-    summary:
-      "Petra, Wadi Rum, and the Dead Sea — driven at our own pace, no tour groups.",
-    duration: "10 days",
-    tripType: "Hire car",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
-    href: "/trips/jordan",
-  },
-];
+import { trips } from "../data/trips.js";
 ---
 
 <Base title="Well Trodden">
