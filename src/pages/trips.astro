@@ -15,52 +15,146 @@ const europeTrips = trips.filter((trip) => trip.region === "Europe");
 const southAmericaTrips = trips.filter(
   (trip) => trip.region === "South America",
 );
-const AsiaTrips = trips.filter((trip) => trip.region === "Asia");
+const asiaTrips = trips.filter((trip) => trip.region === "Asia");
 ---
 
 <Base>
   <Nav />
-  <section style="padding-top: 5rem;">
-    <h2 class="section-title">{pageTitle}</h2>
+  <section>
+    <h1 class="section-title">{pageTitle}</h1>
+
     <TripsMap />
 
+    <p class="intro">
+      Below you'll find a list of every trip I've taken. Use the interactive map
+      to pick a destination, or keep scrolling to browse the full list.
+    </p>
+
+    <div class="filters">
+      <button data-filter="all">All</button>
+      <button data-filter="Asia">Asia </button>
+      <button data-filter="Central America">Central America</button>
+      <button data-filter="Europe">Europe</button>
+      <button data-filter="Middle East">Middle East</button>
+      <button data-filter="South America">South America</button>
+    </div>
+
     <div class="trip-grids">
-      <div class="region">
+      <div class="region" data-region="Asia">
+        <h2>Asia</h2>
+        <div class="trip-grid">
+          {asiaTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+
+      <div class="region" data-region="Central America">
         <h2>Central America</h2>
         <div class="trip-grid">
           {centralAmericaTrips.map((trip) => <TripCard {...trip} />)}
         </div>
       </div>
 
-      <div class="region">
-        <h2>Middle East</h2>
-        <div class="trip-grid">
-          {middleEastTrips.map((trip) => <TripCard {...trip} />)}
-        </div>
-      </div>
-
-      <div class="region">
+      <div class="region" data-region="Europe">
         <h2>Europe</h2>
         <div class="trip-grid">
           {europeTrips.map((trip) => <TripCard {...trip} />)}
         </div>
       </div>
 
-      <div class="Asia">
-        <h2>Asia</h2>
+      <div class="region" data-region="Middle East">
+        <h2>Middle East</h2>
         <div class="trip-grid">
-          {centralAmericaTrips.map((trip) => <TripCard {...trip} />)}
+          {middleEastTrips.map((trip) => <TripCard {...trip} />)}
+        </div>
+      </div>
+
+      <div class="region" data-region="South America">
+        <h2>South America</h2>
+        <div class="trip-grid">
+          {southAmericaTrips.map((trip) => <TripCard {...trip} />)}
         </div>
       </div>
     </div>
   </section>
 </Base>
 
+<script>
+  const buttons = document.querySelectorAll("[data-filter]");
+  const regions = document.querySelectorAll("[data-region]");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      button.classList.add("active");
+      const filter = button.dataset.filter;
+      regions.forEach((region) => {
+        region.style.display =
+          filter === "all" || region.dataset.region === filter
+            ? "block"
+            : "none";
+      });
+    });
+  });
+</script>
+
 <style>
   section {
-    padding: 8rem 2.5rem 6rem;
+    padding: 2rem 2.5rem 6rem;
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--ink);
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  .intro {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--stone);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+  }
+
+  .filters {
+    background: var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .filters button {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--stone);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+    padding: 1rem 1.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .filters button:hover {
+    color: white;
+  }
+
+  .filters button.active {
+    color: white;
   }
 
   .trip-grids {
