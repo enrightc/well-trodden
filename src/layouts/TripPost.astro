@@ -14,13 +14,14 @@ const { frontmatter } = Astro.props;
       <h1>{frontmatter.title}</h1>
     </div>
   </div>
+
+  <article class="prose">
+    <slot />
+  </article>
 </Base>
 
-<article class="prose">
-  <slot />
-</article>
-
-<style>
+<style is:global>
+  /* Hero */
   .hero {
     height: 60svh;
     min-height: 300px;
@@ -67,5 +68,159 @@ const { frontmatter } = Astro.props;
     line-height: 1;
     letter-spacing: 0.01em;
     margin-bottom: 1.5rem;
+  }
+
+  /* ── Prose column ── */
+  .prose {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5rem 2rem 8rem;
+    color: var(--ink);
+  }
+
+  .prose h2 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 3.5rem 0 1rem;
+  }
+
+  .prose h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .prose p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--stone);
+    margin-bottom: 1.25rem;
+  }
+
+  .prose strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .prose a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    margin: 2rem 0;
+  }
+
+  .prose th {
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dust);
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .prose td {
+    padding: 0.6rem 1rem 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--stone);
+    line-height: 1.5;
+  }
+
+  .prose tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Images */
+  .prose img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem 0;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+    margin: 2rem 0;
+  }
+
+  .photo-grid img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    margin: 0;
+  }
+
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .full-bleed img {
+    width: 50%;
+    height: 60vh;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .prose figure {
+    margin: 2rem 0;
+  }
+
+  .prose figcaption {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--dust);
+    margin-top: -1.5rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  /* Mobile queries */
+  @media (max-width: 768px) {
+    .hero-overlay {
+      padding: 2rem 1.5rem;
+    }
+
+    .hero-overlay h1 {
+      font-size: 2.75rem;
+    }
+
+    .trip-stats {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .prose {
+      padding: 3rem 1.25rem 5rem;
+    }
+
+    .prose table {
+      font-size: 0.8rem;
+    }
   }
 </style>
