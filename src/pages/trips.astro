@@ -76,6 +76,11 @@ const asiaTrips = trips.filter((trip) => trip.region === "Asia");
       </div>
     </div>
   </section>
+
+  <footer>
+    <span class="footer-wordmark">Well Trodden</span>
+    <span class="footer-strapline">Self-directed trips, honestly told.</span>
+  </footer>
 </Base>
 
 <script>
@@ -126,11 +131,9 @@ const asiaTrips = trips.filter((trip) => trip.region === "Asia");
   }
 
   .filters {
-    background: var(--border);
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: center;
     margin-bottom: 3rem;
   }
 
@@ -141,32 +144,92 @@ const asiaTrips = trips.filter((trip) => trip.region === "Asia");
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--stone);
-    opacity: 0.85;
-    transition: opacity 0.2s;
-    padding: 1rem 1.5rem;
-    border: none;
     background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
     cursor: pointer;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
   }
 
   .filters button:hover {
-    color: white;
+    color: var(--ink);
+    border-color: var(--ink);
   }
 
   .filters button.active {
-    color: white;
+    color: var(--paper);
+    background: var(--ink);
+    border-color: var(--ink);
   }
 
   .trip-grids {
     margin-top: 4rem;
   }
 
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .footer-strapline {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.03em;
+  }
+
   .region {
     margin-bottom: 4rem;
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem;
+  }
+
+  .region h2 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
   }
   .trip-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .trip-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    section {
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    .trip-grid {
+      grid-template-columns: 1fr;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+    }
   }
 </style>

@@ -8,6 +8,23 @@ const { mobileImage = "" } = Astro.props;
 <div class="map-hero">
   <div id="hero-map" class="map-canvas" aria-hidden="true"></div>
 
+  <div id="map-popup" class="map-popup" hidden>
+    <button id="popup-closer" aria-label="Close">✕</button>
+    <a class="map-popup-card" href="">
+      <div class="map-popup-photo">
+        <img class="map-popup-img" src="" alt="" />
+      </div>
+      <div class="map-popup-body">
+        <span class="map-popup-region"></span>
+        <p class="map-popup-title"></p>
+        <div class="map-popup-pills">
+          <span class="map-popup-duration"></span>
+          <span class="map-popup-type"></span>
+        </div>
+      </div>
+    </a>
+  </div>
+
   <div
     class="mobile-photo"
     style={mobileImage ? `background-image: url('${mobileImage}')` : ""}
@@ -23,19 +40,106 @@ const { mobileImage = "" } = Astro.props;
   import VectorSource from "ol/source/Vector";
   import GeoJSON from "ol/format/GeoJSON";
   import { Fill, Stroke, Style } from "ol/style";
+  import Overlay from "ol/Overlay";
 
-  const TRIPS = {
-    Guatemala: "/trips/guatemala-belize",
-    Belize: "/trips/guatemala-belize",
-    Iceland: "/trips/iceland",
-    Jordan: "/trips/jordan",
-    Malaysia: "/trips/malaysia",
-    Japan: "/trips/japan",
-    Peru: "/trips/peru",
-    Bolivia: "/trips/Bolivia",
-    Italy: "/trips/italy",
-    Poland: "/trips/poland",
-    Portugal: "/trips/portugal",
+  type TripData = {
+    title: string;
+    region: string;
+    duration: string;
+    tripType: string;
+    image: string;
+    href: string;
+  };
+
+  const TRIPS: Record<string, TripData> = {
+    Guatemala: {
+      title: "Guatemala & Belize",
+      region: "Central America",
+      duration: "16 days",
+      tripType: "Shuttle & hire car",
+      image: "/images/trips/guatemala-belize/hero.webp",
+      href: "/trips/guatemala-belize",
+    },
+    Belize: {
+      title: "Guatemala & Belize",
+      region: "Central America",
+      duration: "16 days",
+      tripType: "Shuttle & hire car",
+      image: "/images/trips/guatemala-belize/hero.webp",
+      href: "/trips/guatemala-belize",
+    },
+    Iceland: {
+      title: "Iceland",
+      region: "Europe",
+      duration: "10 days",
+      tripType: "Campervan",
+      image: "https://picsum.photos/seed/wt-iceland/800/600",
+      href: "/trips/under-construction",
+    },
+    Jordan: {
+      title: "Jordan",
+      region: "Middle East",
+      duration: "10 days",
+      tripType: "Hire car",
+      image: "https://picsum.photos/seed/wt-jordan/800/600",
+      href: "/trips/under-construction",
+    },
+    Malaysia: {
+      title: "Malaysia",
+      region: "Asia",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-malaysia/800/600",
+      href: "/trips/under-construction",
+    },
+    Japan: {
+      title: "Japan",
+      region: "Asia",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-japan/800/600",
+      href: "/trips/under-construction",
+    },
+    Peru: {
+      title: "Bolivia and Peru",
+      region: "South America",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-peru/800/600",
+      href: "/trips/under-construction",
+    },
+    Bolivia: {
+      title: "Bolivia and Peru",
+      region: "South America",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-peru/800/600",
+      href: "/trips/under-construction",
+    },
+    Italy: {
+      title: "Italy",
+      region: "Europe",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-italy/800/600",
+      href: "/trips/under-construction",
+    },
+    Poland: {
+      title: "Krakow, Poland",
+      region: "Europe",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-poland/800/600",
+      href: "/trips/under-construction",
+    },
+    Portugal: {
+      title: "Porto, Portugal",
+      region: "Europe",
+      duration: "",
+      tripType: "",
+      image: "https://picsum.photos/seed/wt-portugal/800/600",
+      href: "/trips/under-construction",
+    },
   };
 
   const VISITED = new Set(Object.keys(TRIPS));
@@ -57,7 +161,7 @@ const { mobileImage = "" } = Astro.props;
     stroke: BORDER,
   });
 
-  function styleCountry(feature) {
+  function styleCountry(feature: FeatureLike) {
     return VISITED.has(feature.get("name")) ? visitedStyle : unvisitedStyle;
   }
 
@@ -68,16 +172,81 @@ const { mobileImage = "" } = Astro.props;
 
   const vectorLayer = new VectorLayer({ source, style: styleCountry });
 
+  const container = document.getElementById('map-popup')!;
+  const closer = document.getElementById('popup-closer')!;
+  const popupCard = container.querySelector('.map-popup-card') as HTMLAnchorElement;
+  const popupImg = container.querySelector('.map-popup-img') as HTMLImageElement;
+  const popupRegion = container.querySelector('.map-popup-region')!;
+  const popupTitle = container.querySelector('.map-popup-title')!;
+  const popupDuration = container.querySelector('.map-popup-duration')!;
+  const popupType = container.querySelector('.map-popup-type')!;
+  const popupPills = container.querySelector('.map-popup-pills') as HTMLElement;
+
+  const overlay = new Overlay({
+    element: container,
+    autoPan: {
+      animation: {
+        duration: 250,
+      },
+    },
+  });
+
   const map = new Map({
     target: "hero-map",
     layers: [vectorLayer],
     controls: [],
-    interactions: [],
+    overlays: [overlay],
     view: new View({
       projection: "EPSG:4326",
       center: [10, 20],
       zoom: 2,
     }),
+  });
+
+  closer.onclick = function () {
+    overlay.setPosition(undefined);
+    container.hidden = true;
+    closer.blur();
+    return false;
+  };
+
+  map.on('singleclick', function (evt) {
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f);
+    const name = feature?.get('name');
+    const trip = name && TRIPS[name];
+
+    if (trip) {
+      popupCard.href = trip.href;
+      popupImg.src = trip.image;
+      popupImg.alt = trip.title;
+      popupRegion.textContent = trip.region;
+      popupTitle.textContent = trip.title;
+      popupDuration.textContent = trip.duration;
+      popupType.textContent = trip.tripType;
+      popupPills.hidden = !trip.duration && !trip.tripType;
+      container.hidden = false;
+      overlay.setPosition(evt.coordinate);
+    } else {
+      overlay.setPosition(undefined);
+      container.hidden = true;
+    }
+  });
+
+  let hoveredFeature: ReturnType<typeof map.forEachFeatureAtPixel> = null;
+
+  map.on("pointermove", (evt) => {
+    if (hoveredFeature) {
+      (hoveredFeature as any).setStyle(undefined);
+      hoveredFeature = null;
+    }
+    map.forEachFeatureAtPixel(evt.pixel, (feature) => {
+      if (VISITED.has(feature.get("name"))) {
+        (feature as any).setStyle(hoverStyle);
+        hoveredFeature = feature;
+      }
+      return true;
+    });
+    map.getTargetElement().style.cursor = hoveredFeature ? "pointer" : "";
   });
 
   source.once("featuresloadend", () => {
@@ -114,6 +283,94 @@ const { mobileImage = "" } = Astro.props;
     background-position: center;
   }
 
+  /* popup */
+
+  .map-popup {
+    width: 220px;
+    position: relative;
+  }
+
+  #popup-closer {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 100px;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.65rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .map-popup-card {
+    display: block;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(26, 25, 22, 0.08), 0 4px 16px rgba(26, 25, 22, 0.12);
+    text-decoration: none;
+  }
+
+  .map-popup-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .map-popup-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .map-popup-body {
+    padding: 0.85rem 1rem 1rem;
+  }
+
+  .map-popup-region {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-bottom: 0.3rem;
+  }
+
+  .map-popup-title {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 0.6rem;
+  }
+
+  .map-popup-pills {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .map-popup-duration,
+  .map-popup-type {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--stone);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.2rem 0.6rem;
+  }
+
   @media (max-width: 768px) {
     .map-canvas {
       display: none;
@@ -121,14 +378,6 @@ const { mobileImage = "" } = Astro.props;
 
     .mobile-photo {
       display: block;
-    }
-
-    .hero-text h1 {
-      color: #fff;
-    }
-
-    .hero-text p {
-      color: rgba(255, 255, 255, 0.85);
     }
   }
 </style>
