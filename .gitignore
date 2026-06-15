@@ -1,1 +1,16 @@
 CLAUDE.md
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
