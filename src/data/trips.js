@@ -7,7 +7,7 @@ export const trips = [
       "Two weeks, two countries. Volcanoes to Mayan ruins to snorkelling the barrier reef.",
     duration: "16 days",
     tripType: "Shuttle & hire car",
-    image: "public/images/trips/guatemala-belize/hero.webp",
+    image: "/images/trips/guatemala-belize/hero.webp",
     href: "/trips/guatemala-belize",
   },
   {
@@ -18,7 +18,7 @@ export const trips = [
       "A campervan loop of the Ring Road — hot springs, black sand, and very long days.",
     duration: "10 days",
     tripType: "Campervan",
-    image: "https://picsum.photos/seed/wt-iceland/800/600",
+    image: "/images/trips/iceland/iceland-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -29,7 +29,7 @@ export const trips = [
       "Petra, Wadi Rum, and the Dead Sea — driven at our own pace, no tour groups.",
     duration: "10 days",
     tripType: "Hire car",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/jordan/jordan-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -40,7 +40,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/bolivia-peru/bolivia-peru-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -51,7 +51,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/japan/japan-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -62,7 +62,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/malaysia/malaysia-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -73,7 +73,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/krakow/krakow-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -84,7 +84,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/porto/porto-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -95,7 +95,7 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/rome/rome-hero.webp",
     href: "/trips/under-construction",
   },
   {
@@ -106,7 +106,18 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    image: "/images/trips/venice/venice-hero.webp",
+    href: "/trips/under-construction",
+  },
+  {
+    region: "Europe",
+    title: "Prague, Czech Republic",
+    date: "2017-12",
+    summary:
+      "",
+    duration: "",
+    tripType: "",
+    image: "/images/trips/venice/venice-hero.webp",
     href: "/trips/under-construction",
   },
 ];
