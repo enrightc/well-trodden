@@ -1,0 +1,118 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import TripCard from "../../components/TripCard.astro";
+import { trips } from "../../data/trips.js";
+
+const italyTrips = trips.filter((trip) => trip.title.endsWith(", Italy"));
+---
+
+<Base title="Italy — Well Trodden">
+  <Nav />
+  <section>
+    <span class="section-label">Europe</span>
+    <h1 class="section-title">Italy</h1>
+    <p class="intro">Every trip we've taken to Italy, in one place.</p>
+
+    <div class="trip-grid">
+      {italyTrips.map((trip) => <TripCard {...trip} />)}
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-wordmark">Well Trodden</span>
+    <span class="footer-strapline">Self-directed trips, honestly told.</span>
+  </footer>
+</Base>
+
+<style>
+  section {
+    padding: 2rem 2.5rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--stone);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 3rem;
+  }
+
+  .trip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .footer-strapline {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 900px) {
+    .trip-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    section {
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    .trip-grid {
+      grid-template-columns: 1fr;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>

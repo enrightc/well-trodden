@@ -87,4 +87,26 @@ export const trips = [
     image: "https://picsum.photos/seed/wt-jordan/800/600",
     href: "/trips/under-construction",
   },
+  {
+    region: "Europe",
+    title: "Rome, Italy",
+    date: "2022-12",
+    summary:
+      "",
+    duration: "",
+    tripType: "",
+    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    href: "/trips/under-construction",
+  },
+  {
+    region: "Europe",
+    title: "Venice, Italy",
+    date: "2019-12",
+    summary:
+      "",
+    duration: "",
+    tripType: "",
+    image: "https://picsum.photos/seed/wt-jordan/800/600",
+    href: "/trips/under-construction",
+  },
 ];
