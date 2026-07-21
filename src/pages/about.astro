@@ -1,0 +1,117 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+---
+
+<Base title="About — Well Trodden">
+  <Nav />
+
+  <section class="page-header">
+    <span class="section-label">About</span>
+    <h1>Well Trodden</h1>
+  </section>
+
+  <article class="prose">
+    <p>
+      Ten years of planning my own trips. No package holidays. No travel agent doing the thinking for me. Just working out where to go, how to get there, and what to do when we arrived.
+    </p>
+    <p>
+      Well Trodden isn't a review site. I'm not rating restaurants or hotels, and I won't tell you what to pack for a dream getaway. This is the write-up I wish had existed before each trip: what the route actually looked like, what things cost, how long things took, what I'd do differently.
+    </p>
+    <p>
+      I'm assuming you've already decided where you want to go and why. There's no shortage of inspiration content out there, and I won't repeat it here. What's harder to find is the practical layer underneath it -- how the days actually fit together, what things cost, what caught me out. That's what this site is for.
+    </p>
+    <p>
+      I keep myself out of these stories on purpose. The trip is the point, not who went on it.
+    </p>
+  </article>
+
+  <footer>
+    <span class="footer-wordmark">Well Trodden</span>
+    <span class="footer-strapline">Self-directed trips, honestly told.</span>
+  </footer>
+</Base>
+
+<style>
+  .page-header {
+    padding: 9rem 2.5rem 2rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dust);
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.75rem, 6vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .prose {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 2.5rem 8rem;
+  }
+
+  .prose p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--stone);
+    margin-bottom: 1.25rem;
+  }
+
+  footer {
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .footer-strapline {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      padding: 7rem 1.25rem 1.5rem;
+    }
+
+    .prose {
+      padding: 1rem 1.25rem 5rem;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>

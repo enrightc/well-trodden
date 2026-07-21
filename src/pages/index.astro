@@ -4,6 +4,8 @@ import Nav from "../components/Nav.astro";
 import TripCard from "../components/TripCard.astro";
 
 import { trips } from "../data/trips.js";
+
+const recentTrips = [...trips].sort((a, b) => b.date.localeCompare(a.date));
 ---
 
 <Base title="Well Trodden">
@@ -19,11 +21,27 @@ import { trips } from "../data/trips.js";
     </div>
   </section>
 
+  <section class="about">
+    <span class="section-label">About</span>
+    <p>
+      Well Trodden started out of frustration. Ten years of planning our own trips instead of booking package holidays, and every time we sat down to research a destination, we'd spend hours wading through blogs full of beautiful photos, breathless prose, and almost no useful information. How do you actually get from A to B? What does it cost? How long does it take? What do you wish you'd known before you went?
+
+      This site is our answer to that. We've travelled to some brilliant, complicated, occasionally exhausting places and we've written it all up the way we'd have wanted to find it. Day by day, decision by decision, with the practical detail left in.
+    </p>
+
+    <p>No fluff. No package tours. Just the full story of trips we actually did.</p>
+
+      
+    
+    <a href="/about" class="about-link">Read the full story →</a>
+  </section>
+
   <section class="trips">
     <span class="section-label">Trips</span>
     <div class="grid">
-      {trips.map((trip) => <TripCard {...trip} />)}
+      {recentTrips.slice(0, 3).map((trip) => <TripCard {...trip} />)}
     </div>
+    <a href="/trips" class="trips-link">See all trips →</a>
   </section>
 
   <footer>
@@ -81,6 +99,41 @@ import { trips } from "../data/trips.js";
     line-height: 1.6;
   }
 
+  /* About section */
+  .about {
+    background: var(--paper);
+    padding: 6rem 2.5rem 0;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--stone);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-link {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.2rem;
+    transition: opacity 0.2s;
+  }
+
+  .about-link:hover {
+    opacity: 0.65;
+  }
+
   /* Trips section */
   .trips {
     background: var(--paper);
@@ -104,6 +157,24 @@ import { trips } from "../data/trips.js";
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+  }
+
+  .trips-link {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.2rem;
+    margin-top: 2.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .trips-link:hover {
+    opacity: 0.65;
   }
 
   /* Footer */
@@ -139,6 +210,10 @@ import { trips } from "../data/trips.js";
   }
 
   @media (max-width: 640px) {
+    .about {
+      padding: 4rem 1.25rem 0;
+    }
+
     .trips {
       padding: 4rem 1.25rem;
     }
