@@ -1,8 +1,4 @@
 ---
-interface Props {
-  mobileImage?: string;
-}
-const { mobileImage = "" } = Astro.props;
 ---
 
 <div class="map-hero">
@@ -23,13 +19,6 @@ const { mobileImage = "" } = Astro.props;
         </div>
       </div>
     </a>
-  </div>
-
-  <div
-    class="mobile-photo"
-    style={mobileImage ? `background-image: url('${mobileImage}')` : ""}
-    aria-hidden="true"
-  >
   </div>
 </div>
 
@@ -209,6 +198,11 @@ const { mobileImage = "" } = Astro.props;
     },
   });
 
+  // Below this width the map is a static illustration: panning/zooming a world
+  // map with a fingertip is too fiddly to be worth it, and the full trip list
+  // right below already covers browsing by region.
+  const isStatic = window.matchMedia("(max-width: 768px)").matches;
+
   const map = new Map({
     target: "hero-map",
     layers: [vectorLayer],
@@ -216,9 +210,11 @@ const { mobileImage = "" } = Astro.props;
     overlays: [overlay],
     // Require Ctrl/Cmd+scroll to zoom the map so plain scrolling passes through
     // to the page instead of getting captured by the map when the cursor is over it.
-    interactions: defaultInteractions({ mouseWheelZoom: false }).extend([
-      new MouseWheelZoom({ condition: platformModifierKeyOnly }),
-    ]),
+    interactions: isStatic
+      ? []
+      : defaultInteractions({ mouseWheelZoom: false }).extend([
+          new MouseWheelZoom({ condition: platformModifierKeyOnly }),
+        ]),
     view: new View({
       projection: "EPSG:4326",
       center: [10, 20],
@@ -251,44 +247,46 @@ const { mobileImage = "" } = Astro.props;
     return false;
   };
 
-  // Touch devices don't fire pointermove on hover, so fall back to tap-to-open.
-  map.on('singleclick', function (evt) {
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f);
-    const name = feature?.get('name');
-    const trip = name && TRIPS[name];
+  if (!isStatic) {
+    // Touch devices don't fire pointermove on hover, so fall back to tap-to-open.
+    map.on('singleclick', function (evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f);
+      const name = feature?.get('name');
+      const trip = name && TRIPS[name];
 
-    if (trip) {
-      showPopup(trip, evt.coordinate);
-    } else {
-      hidePopup();
-    }
-  });
-
-  let hoveredFeature: ReturnType<typeof map.forEachFeatureAtPixel> = null;
-
-  map.on("pointermove", (evt) => {
-    if (hoveredFeature) {
-      (hoveredFeature as any).setStyle(undefined);
-      hoveredFeature = null;
-    }
-    let name: string | undefined;
-    map.forEachFeatureAtPixel(evt.pixel, (feature) => {
-      name = feature.get("name");
-      if (name && VISITED.has(name)) {
-        (feature as any).setStyle(hoverStyle);
-        hoveredFeature = feature;
+      if (trip) {
+        showPopup(trip, evt.coordinate);
+      } else {
+        hidePopup();
       }
-      return true;
     });
-    map.getTargetElement().style.cursor = hoveredFeature ? "pointer" : "";
 
-    // Only switch/open on hovering a visited country; leaving it alone otherwise
-    // keeps the popup open (and clickable) once shown, until closed explicitly.
-    const trip = name && TRIPS[name];
-    if (trip) {
-      showPopup(trip, evt.coordinate);
-    }
-  });
+    let hoveredFeature: ReturnType<typeof map.forEachFeatureAtPixel> = null;
+
+    map.on("pointermove", (evt) => {
+      if (hoveredFeature) {
+        (hoveredFeature as any).setStyle(undefined);
+        hoveredFeature = null;
+      }
+      let name: string | undefined;
+      map.forEachFeatureAtPixel(evt.pixel, (feature) => {
+        name = feature.get("name");
+        if (name && VISITED.has(name)) {
+          (feature as any).setStyle(hoverStyle);
+          hoveredFeature = feature;
+        }
+        return true;
+      });
+      map.getTargetElement().style.cursor = hoveredFeature ? "pointer" : "";
+
+      // Only switch/open on hovering a visited country; leaving it alone otherwise
+      // keeps the popup open (and clickable) once shown, until closed explicitly.
+      const trip = name && TRIPS[name];
+      if (trip) {
+        showPopup(trip, evt.coordinate);
+      }
+    });
+  }
 
   source.once("featuresloadend", () => {
     map.getView().fit([-168, -58, 178, 80], { padding: [32, 32, 32, 32] });
@@ -305,23 +303,20 @@ const { mobileImage = "" } = Astro.props;
     background: var(--paper);
   }
 
-  .map-canvas,
-  .mobile-photo {
+  .map-canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .map-canvas {
     background: var(--paper);
   }
 
-  .mobile-photo {
-    display: none;
-    background-color: var(--ink);
-    background-size: cover;
-    background-position: center;
+  @media (max-width: 768px) {
+    /* Map is non-interactive below this width (see isStatic in the script);
+       drop pointer events too so touches fall through to normal page scroll. */
+    .map-canvas {
+      pointer-events: none;
+    }
   }
 
   /* popup */
@@ -410,15 +405,5 @@ const { mobileImage = "" } = Astro.props;
     border: 1px solid var(--border);
     border-radius: 100px;
     padding: 0.2rem 0.6rem;
-  }
-
-  @media (max-width: 768px) {
-    .map-canvas {
-      display: none;
-    }
-
-    .mobile-photo {
-      display: block;
-    }
   }
 </style>
