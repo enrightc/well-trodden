@@ -1,7 +1,12 @@
 ---
+interface Props {
+  transparent?: boolean;
+}
+
+const { transparent = false } = Astro.props;
 ---
 
-<nav id="site-nav">
+<nav id="site-nav" class:list={[{ transparent }]}>
   <a href="/" class="wordmark">Well Trodden</a>
   <ul>
     <li><a href="/">Home</a></li>
@@ -29,16 +34,22 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 2.5rem;
-    background: transparent;
-    border-bottom: 1px solid transparent;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
     transition:
       background 0.3s ease,
       border-color 0.3s ease,
       color 0.3s ease;
+    color: var(--ink);
+  }
+
+  nav.transparent {
+    background: transparent;
+    border-bottom: 1px solid transparent;
     color: #fff;
   }
 
-  nav.scrolled {
+  nav.transparent.scrolled {
     background: var(--paper);
     border-color: var(--border);
     color: var(--ink);

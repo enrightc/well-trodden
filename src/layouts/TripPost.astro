@@ -6,7 +6,7 @@ const { frontmatter } = Astro.props;
 ---
 
 <Base title={frontmatter.title}>
-  <Nav />
+  <Nav transparent />
 
   <div class="hero" style={`background-image: url('${frontmatter.heroImage}')`}>
     <div class="hero-overlay">

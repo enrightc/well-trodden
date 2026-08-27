@@ -117,7 +117,40 @@ export const trips = [
       "",
     duration: "",
     tripType: "",
-    image: "/images/trips/venice/venice-hero.webp",
+    image: "/images/trips/prague/prague-hero.webp",
+    href: "/trips/under-construction",
+  },
+  {
+    region: "Asia",
+    title: "Taiwan",
+    date: "2015-06",
+    summary:
+      "",
+    duration: "Two weeks",
+    tripType: "",
+    image: "/images/trips/taiwan/taiwan-hero.webp",
+    href: "/trips/under-construction",
+  },
+  {
+    region: "Europe",
+    title: "Naples, Italy",
+    date: "2024-05",
+    summary:
+      "",
+    duration: "Weekend",
+    tripType: "",
+    image: "/images/trips/naples/naples-hero.webp",
+    href: "/trips/under-construction",
+  },
+  {
+    region: "Europe",
+    title: "Pisa & Florence, Italy",
+    date: "2025-05",
+    summary:
+      "",
+    duration: "Weekend",
+    tripType: "",
+    image: "/images/trips/pisa/pisa-hero.webp",
     href: "/trips/under-construction",
   },
 ];

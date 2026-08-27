@@ -41,6 +41,8 @@ const { mobileImage = "" } = Astro.props;
   import GeoJSON from "ol/format/GeoJSON";
   import { Fill, Stroke, Style } from "ol/style";
   import Overlay from "ol/Overlay";
+  import { defaults as defaultInteractions, MouseWheelZoom } from "ol/interaction";
+  import { platformModifierKeyOnly } from "ol/events/condition";
 
   type TripData = {
     title: string;
@@ -119,9 +121,9 @@ const { mobileImage = "" } = Astro.props;
     Italy: {
       title: "Italy",
       region: "Europe",
-      duration: "2 trips",
+      duration: "3 trips",
       tripType: "",
-      image: "/images/trips/porto/porto-hero.webp",
+      image: "/images/trips/rome/rome-hero.webp",
       href: "/trips/italy",
     },
     Poland: {
@@ -138,6 +140,22 @@ const { mobileImage = "" } = Astro.props;
       duration: "",
       tripType: "",
       image: "/images/trips/porto/porto-hero.webp",
+      href: "/trips/under-construction",
+    },
+    "Czech Republic": {
+      region: "Europe",
+      title: "Prague, Czech Republic",
+      duration: "",
+      tripType: "",
+      image: "/images/trips/prague/prague-hero.webp",
+      href: "/trips/under-construction",
+    },
+    "Taiwan": {
+      region: "Asia",
+      title: "Taiwan, Asia",
+      duration: "",
+      tripType: "",
+      image: "/images/trips/taiwan/taiwan-hero.webp",
       href: "/trips/under-construction",
     },
   };
@@ -196,6 +214,11 @@ const { mobileImage = "" } = Astro.props;
     layers: [vectorLayer],
     controls: [],
     overlays: [overlay],
+    // Require Ctrl/Cmd+scroll to zoom the map so plain scrolling passes through
+    // to the page instead of getting captured by the map when the cursor is over it.
+    interactions: defaultInteractions({ mouseWheelZoom: false }).extend([
+      new MouseWheelZoom({ condition: platformModifierKeyOnly }),
+    ]),
     view: new View({
       projection: "EPSG:4326",
       center: [10, 20],
@@ -204,32 +227,40 @@ const { mobileImage = "" } = Astro.props;
     }),
   });
 
-  closer.onclick = function () {
+  function showPopup(trip: TripData, coordinate: number[]) {
+    popupCard.href = trip.href;
+    popupImg.src = trip.image;
+    popupImg.alt = trip.title;
+    popupRegion.textContent = trip.region;
+    popupTitle.textContent = trip.title;
+    popupDuration.textContent = trip.duration;
+    popupType.textContent = trip.tripType;
+    popupPills.hidden = !trip.duration && !trip.tripType;
+    container.hidden = false;
+    overlay.setPosition(coordinate);
+  }
+
+  function hidePopup() {
     overlay.setPosition(undefined);
     container.hidden = true;
+  }
+
+  closer.onclick = function () {
+    hidePopup();
     closer.blur();
     return false;
   };
 
+  // Touch devices don't fire pointermove on hover, so fall back to tap-to-open.
   map.on('singleclick', function (evt) {
     const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f);
     const name = feature?.get('name');
     const trip = name && TRIPS[name];
 
     if (trip) {
-      popupCard.href = trip.href;
-      popupImg.src = trip.image;
-      popupImg.alt = trip.title;
-      popupRegion.textContent = trip.region;
-      popupTitle.textContent = trip.title;
-      popupDuration.textContent = trip.duration;
-      popupType.textContent = trip.tripType;
-      popupPills.hidden = !trip.duration && !trip.tripType;
-      container.hidden = false;
-      overlay.setPosition(evt.coordinate);
+      showPopup(trip, evt.coordinate);
     } else {
-      overlay.setPosition(undefined);
-      container.hidden = true;
+      hidePopup();
     }
   });
 
@@ -240,14 +271,23 @@ const { mobileImage = "" } = Astro.props;
       (hoveredFeature as any).setStyle(undefined);
       hoveredFeature = null;
     }
+    let name: string | undefined;
     map.forEachFeatureAtPixel(evt.pixel, (feature) => {
-      if (VISITED.has(feature.get("name"))) {
+      name = feature.get("name");
+      if (name && VISITED.has(name)) {
         (feature as any).setStyle(hoverStyle);
         hoveredFeature = feature;
       }
       return true;
     });
     map.getTargetElement().style.cursor = hoveredFeature ? "pointer" : "";
+
+    // Only switch/open on hovering a visited country; leaving it alone otherwise
+    // keeps the popup open (and clickable) once shown, until closed explicitly.
+    const trip = name && TRIPS[name];
+    if (trip) {
+      showPopup(trip, evt.coordinate);
+    }
   });
 
   source.once("featuresloadend", () => {
