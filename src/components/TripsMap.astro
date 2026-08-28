@@ -199,9 +199,8 @@
     },
   });
 
-  // Below this width the map is a static illustration: panning/zooming a world
-  // map with a fingertip is too fiddly to be worth it, and the full trip list
-  // right below already covers browsing by region.
+  // Below this width the map is hidden entirely (see .map-hero media query
+  // below), so skip wiring up interactions that would never be reachable.
   const isStatic = window.matchMedia("(max-width: 768px)").matches;
 
   const map = new Map({
@@ -313,10 +312,11 @@
   }
 
   @media (max-width: 768px) {
-    /* Map is non-interactive below this width (see isStatic in the script);
-       drop pointer events too so touches fall through to normal page scroll. */
-    .map-canvas {
-      pointer-events: none;
+    /* Panning/zooming a world map with a fingertip is too fiddly to be worth
+       it on small screens, and the full trip list below already covers
+       browsing by region, so just drop the map entirely. */
+    .map-hero {
+      display: none;
     }
   }
 
