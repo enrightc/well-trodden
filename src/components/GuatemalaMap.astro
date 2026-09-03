@@ -1,0 +1,90 @@
+---
+
+---
+
+<div id="guatemala-map" style="width: 100%; height: 400px"></div>
+
+<script>
+  import Map from "ol/Map.js";
+  import View from "ol/View.js";
+  import OSM from "ol/source/OSM.js";
+  import TileLayer from "ol/layer/Tile.js";
+  import VectorLayer from "ol/layer/Vector.js";
+  import VectorSource from "ol/source/Vector.js";
+  import Feature from "ol/Feature.js";
+  import Point from "ol/geom/Point.js";
+  import LineString from "ol/geom/LineString.js";
+  import { fromLonLat } from "ol/proj.js";
+  import {
+    Circle as CircleStyle,
+    Fill,
+    Stroke,
+    Style,
+    Text,
+  } from "ol/style.js";
+  import type { FeatureLike } from "ol/Feature.js";
+  import "ol/ol.css";
+
+  // Trip stops in order, [lon, lat]
+  const STOPS: { name: string; coord: [number, number] }[] = [
+    { name: "Antigua", coord: [-90.734, 14.557] },
+    { name: "Lake Atitlán", coord: [-91.157, 14.74] },
+    { name: "Flores", coord: [-89.892, 16.928] },
+    { name: "Tikal", coord: [-89.623, 17.222] },
+    { name: "San Ignacio", coord: [-89.07, 17.159] },
+    { name: "Hummingbird Hwy", coord: [-88.63, 17.23] },
+    { name: "Caye Caulker", coord: [-87.918, 17.741] },
+  ];
+
+  const routeGeom = new LineString(STOPS.map((s) => fromLonLat(s.coord)));
+
+  const routeLine = new Feature(routeGeom);
+
+  const stopFeatures = STOPS.map(
+    (stop) =>
+      new Feature({
+        geometry: new Point(fromLonLat(stop.coord)),
+        name: stop.name,
+      }),
+  );
+
+  const routeStyle = new Style({
+    stroke: new Stroke({ color: "red", width: 2, lineDash: [3, 6] }),
+  });
+
+  function stopStyle(feature: FeatureLike) {
+    return new Style({
+      image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({ color: "#1a1916" }),
+        stroke: new Stroke({ color: "#f4f1ec", width: 2 }),
+      }),
+      text: new Text({
+        text: feature.get("name"),
+        font: "500 12px 'Outfit', system-ui, sans-serif",
+        offsetY: -14,
+        fill: new Fill({ color: "#1a1916" }),
+        stroke: new Stroke({ color: "#f4f1ec", width: 3 }),
+      }),
+    });
+  }
+
+  const routeLayer = new VectorLayer({
+    source: new VectorSource({ features: [routeLine, ...stopFeatures] }),
+    style: (feature) =>
+      feature.getGeometry()?.getType() === "LineString"
+        ? routeStyle
+        : stopStyle(feature),
+  });
+
+  const map = new Map({
+    target: "guatemala-map",
+    layers: [new TileLayer({ source: new OSM() }), routeLayer],
+    view: new View({ center: fromLonLat([-89.5, 16]), zoom: 6 }),
+  });
+
+  map.getView().fit(routeGeom.getExtent(), {
+    padding: [48, 48, 48, 48],
+    maxZoom: 9,
+  });
+</script>

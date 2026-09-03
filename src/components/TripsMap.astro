@@ -13,6 +13,7 @@
       <div class="map-popup-body">
         <span class="map-popup-region"></span>
         <p class="map-popup-title"></p>
+        <p class="map-popup-note" hidden>Write-up coming soon</p>
         <div class="map-popup-pills">
           <span class="map-popup-duration"></span>
           <span class="map-popup-type"></span>
@@ -189,6 +190,7 @@
   const popupDuration = container.querySelector('.map-popup-duration')!;
   const popupType = container.querySelector('.map-popup-type')!;
   const popupPills = container.querySelector('.map-popup-pills') as HTMLElement;
+  const popupNote = container.querySelector('.map-popup-note') as HTMLElement;
 
   const overlay = new Overlay({
     element: container,
@@ -224,6 +226,7 @@
   });
 
   function showPopup(trip: TripData, coordinate: number[]) {
+    const comingSoon = trip.href === "/trips/under-construction";
     popupCard.href = trip.href;
     popupImg.src = trip.image;
     popupImg.alt = trip.title;
@@ -231,7 +234,8 @@
     popupTitle.textContent = trip.title;
     popupDuration.textContent = trip.duration;
     popupType.textContent = trip.tripType;
-    popupPills.hidden = !trip.duration && !trip.tripType;
+    popupNote.hidden = !comingSoon;
+    popupPills.hidden = comingSoon || (!trip.duration && !trip.tripType);
     container.hidden = false;
     overlay.setPosition(coordinate);
   }
@@ -387,6 +391,16 @@
     font-weight: 500;
     color: var(--ink);
     line-height: 1.2;
+    margin: 0 0 0.6rem;
+  }
+
+  .map-popup-note {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dust);
     margin: 0 0 0.6rem;
   }
 

@@ -6,7 +6,7 @@ const { frontmatter } = Astro.props;
 ---
 
 <Base title={frontmatter.title}>
-  <Nav transparent />
+  <Nav />
 
   <div class="hero" style={`background-image: url('${frontmatter.heroImage}')`}>
     <div class="hero-overlay">
@@ -23,6 +23,7 @@ const { frontmatter } = Astro.props;
 <style is:global>
   /* Hero */
   .hero {
+    margin-top: 5rem;
     height: 60svh;
     min-height: 300px;
     background-size: cover;
@@ -38,8 +39,8 @@ const { frontmatter } = Astro.props;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.1) 60%,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
       transparent 100%
     );
   }
@@ -49,6 +50,7 @@ const { frontmatter } = Astro.props;
     z-index: 1;
     padding: 3rem 4rem;
     max-width: 900px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   }
 
   .region {
@@ -57,7 +59,7 @@ const { frontmatter } = Astro.props;
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.75;
+    opacity: 0.9;
     margin-bottom: 0.75rem;
   }
 
