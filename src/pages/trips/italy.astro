@@ -19,10 +19,6 @@ const italyTrips = trips.filter((trip) => trip.title.endsWith(", Italy"));
     </div>
   </section>
 
-  <footer>
-    <span class="footer-wordmark">Well Trodden</span>
-    <span class="footer-strapline">Self-directed trips, honestly told.</span>
-  </footer>
 </Base>
 
 <style>
@@ -70,29 +66,6 @@ const italyTrips = trips.filter((trip) => trip.title.endsWith(", Italy"));
     gap: 2rem;
   }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-wordmark {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--ink);
-  }
-
-  .footer-strapline {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: 300;
-    color: var(--stone);
-    letter-spacing: 0.03em;
-  }
-
   @media (max-width: 900px) {
     .trip-grid {
       grid-template-columns: 1fr 1fr;
@@ -106,13 +79,6 @@ const italyTrips = trips.filter((trip) => trip.title.endsWith(", Italy"));
 
     .trip-grid {
       grid-template-columns: 1fr;
-    }
-
-    footer {
-      flex-direction: column;
-      gap: 0.5rem;
-      text-align: center;
-      padding: 1.5rem 1.25rem;
     }
   }
 </style>

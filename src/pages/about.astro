@@ -26,10 +26,6 @@ import Nav from "../components/Nav.astro";
     </p>
   </article>
 
-  <footer>
-    <span class="footer-wordmark">Well Trodden</span>
-    <span class="footer-strapline">Self-directed trips, honestly told.</span>
-  </footer>
 </Base>
 
 <style>
@@ -74,30 +70,6 @@ import Nav from "../components/Nav.astro";
     margin-bottom: 1.25rem;
   }
 
-  footer {
-    background: var(--paper);
-    border-top: 1px solid var(--border);
-    padding: 2rem 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-wordmark {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--ink);
-  }
-
-  .footer-strapline {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: 300;
-    color: var(--stone);
-    letter-spacing: 0.03em;
-  }
-
   @media (max-width: 640px) {
     .page-header {
       padding: 7rem 1.25rem 1.5rem;
@@ -105,13 +77,6 @@ import Nav from "../components/Nav.astro";
 
     .prose {
       padding: 1rem 1.25rem 5rem;
-    }
-
-    footer {
-      flex-direction: column;
-      gap: 0.5rem;
-      text-align: center;
-      padding: 1.5rem 1.25rem;
     }
   }
 </style>

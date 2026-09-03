@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <div id="guatemala-map" style="width: 100%; height: 400px"></div>
@@ -14,18 +15,24 @@
   import Point from "ol/geom/Point.js";
   import LineString from "ol/geom/LineString.js";
   import { fromLonLat } from "ol/proj.js";
-  import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style.js";
+  import {
+    Circle as CircleStyle,
+    Fill,
+    Stroke,
+    Style,
+    Text,
+  } from "ol/style.js";
   import type { FeatureLike } from "ol/Feature.js";
   import "ol/ol.css";
 
   // Trip stops in order, [lon, lat]
   const STOPS: { name: string; coord: [number, number] }[] = [
     { name: "Antigua", coord: [-90.734, 14.557] },
-    { name: "Lake Atitlán", coord: [-91.157, 14.740] },
+    { name: "Lake Atitlán", coord: [-91.157, 14.74] },
     { name: "Flores", coord: [-89.892, 16.928] },
     { name: "Tikal", coord: [-89.623, 17.222] },
-    { name: "San Ignacio", coord: [-89.070, 17.159] },
-    { name: "Hummingbird Hwy", coord: [-88.630, 17.230] },
+    { name: "San Ignacio", coord: [-89.07, 17.159] },
+    { name: "Hummingbird Hwy", coord: [-88.63, 17.23] },
     { name: "Caye Caulker", coord: [-87.918, 17.741] },
   ];
 
@@ -34,11 +41,15 @@
   const routeLine = new Feature(routeGeom);
 
   const stopFeatures = STOPS.map(
-    (stop) => new Feature({ geometry: new Point(fromLonLat(stop.coord)), name: stop.name }),
+    (stop) =>
+      new Feature({
+        geometry: new Point(fromLonLat(stop.coord)),
+        name: stop.name,
+      }),
   );
 
   const routeStyle = new Style({
-    stroke: new Stroke({ color: "#1a1916", width: 2, lineDash: [3, 6] }),
+    stroke: new Stroke({ color: "red", width: 2, lineDash: [3, 6] }),
   });
 
   function stopStyle(feature: FeatureLike) {
@@ -61,7 +72,9 @@
   const routeLayer = new VectorLayer({
     source: new VectorSource({ features: [routeLine, ...stopFeatures] }),
     style: (feature) =>
-      feature.getGeometry()?.getType() === "LineString" ? routeStyle : stopStyle(feature),
+      feature.getGeometry()?.getType() === "LineString"
+        ? routeStyle
+        : stopStyle(feature),
   });
 
   const map = new Map({

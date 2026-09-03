@@ -1,0 +1,107 @@
+---
+---
+
+<script>
+  import * as CookieConsent from "vanilla-cookieconsent";
+  import "vanilla-cookieconsent/dist/cookieconsent.css";
+
+  const CLARITY_ID = "yckj70do4j";
+  const w = window as any;
+
+  // Load Clarity only in production, and only after analytics consent.
+  function enableClarity() {
+    if (!import.meta.env.PROD) return;
+
+    if (!w.__clarityInjected) {
+      w.__clarityInjected = true;
+      w.clarity =
+        w.clarity ||
+        function () {
+          (w.clarity.q = w.clarity.q || []).push(arguments);
+        };
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.clarity.ms/tag/" + CLARITY_ID;
+      document.head.appendChild(s);
+    }
+    w.clarity?.("consent");
+  }
+
+  function disableClarity() {
+    w.clarity?.("consent", false);
+    for (const name of ["_clck", "_clsk"]) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    }
+  }
+
+  function syncClarity() {
+    if (CookieConsent.acceptedCategory("analytics")) {
+      enableClarity();
+    } else {
+      disableClarity();
+    }
+  }
+
+  CookieConsent.run({
+    guiOptions: {
+      consentModal: { layout: "box", position: "bottom left" },
+      preferencesModal: { layout: "box" },
+    },
+    categories: {
+      necessary: { enabled: true, readOnly: true },
+      analytics: {},
+    },
+    language: {
+      default: "en",
+      translations: {
+        en: {
+          consentModal: {
+            title: "Cookies",
+            description:
+              "This site uses Microsoft Clarity to see how pages are used — anonymised heatmaps and session data. It only loads if you accept.",
+            acceptAllBtn: "Accept",
+            acceptNecessaryBtn: "Reject",
+            showPreferencesBtn: "Manage preferences",
+          },
+          preferencesModal: {
+            title: "Cookie preferences",
+            acceptAllBtn: "Accept all",
+            acceptNecessaryBtn: "Reject all",
+            savePreferencesBtn: "Save preferences",
+            closeIconLabel: "Close",
+            sections: [
+              {
+                title: "Strictly necessary",
+                description:
+                  "Needed for the site to work. Always on.",
+                linkedCategory: "necessary",
+              },
+              {
+                title: "Analytics — Microsoft Clarity",
+                description:
+                  "Heatmaps and session recordings showing how visitors move through the site, used to improve the write-ups. No data is collected unless you enable this.",
+                linkedCategory: "analytics",
+              },
+            ],
+          },
+        },
+      },
+    },
+    onConsent: syncClarity,
+    onChange: syncClarity,
+  });
+</script>
+
+<style is:global>
+  #cc-main {
+    --cc-font-family: var(--font-sans, system-ui, sans-serif);
+    --cc-bg: var(--paper, #f4f1ec);
+    --cc-primary-color: var(--ink, #1a1916);
+    --cc-secondary-color: var(--stone, #6b6860);
+    --cc-btn-primary-bg: var(--ink, #1a1916);
+    --cc-btn-primary-hover-bg: #000;
+    --cc-btn-secondary-bg: transparent;
+    --cc-btn-secondary-border-color: var(--border, rgba(26, 25, 22, 0.2));
+    --cc-btn-border-radius: 4px;
+  }
+</style>
