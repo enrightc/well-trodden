@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://welltrodden.com/sitemap-index.xml

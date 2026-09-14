@@ -1,8 +1,12 @@
 ---
 interface Props {
   title?: string;
+  description?: string;
 }
-const { title = 'Well Trodden' } = Astro.props;
+const {
+  title = 'Well Trodden',
+  description = 'Honest, practical travel write-ups — real itineraries, real costs, no fluff and no package tours.',
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -11,6 +15,7 @@ const { title = 'Well Trodden' } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

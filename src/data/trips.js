@@ -8,7 +8,7 @@ export const trips = [
     duration: "16 days",
     tripType: "Shuttle & hire car",
     image: "/images/trips/guatemala-belize/hero.webp",
-    href: "/trips/guatemala-belize",
+    href: "/trips/guatemala-belize/",
   },
   {
     region: "Europe",
@@ -19,7 +19,7 @@ export const trips = [
     duration: "10 days",
     tripType: "Campervan",
     image: "/images/trips/iceland/iceland-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Middle East",
@@ -30,7 +30,7 @@ export const trips = [
     duration: "10 days",
     tripType: "Hire car",
     image: "/images/trips/jordan/jordan-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "South America",
@@ -41,7 +41,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/bolivia-peru/bolivia-peru-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Asia",
@@ -52,7 +52,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/japan/japan-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Asia",
@@ -63,7 +63,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/malaysia/malaysia-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -74,7 +74,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/krakow/krakow-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -85,7 +85,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/porto/porto-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -96,7 +96,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/rome/rome-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -107,7 +107,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/venice/venice-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -118,7 +118,7 @@ export const trips = [
     duration: "",
     tripType: "",
     image: "/images/trips/prague/prague-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Asia",
@@ -129,7 +129,7 @@ export const trips = [
     duration: "Two weeks",
     tripType: "",
     image: "/images/trips/taiwan/taiwan-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -140,7 +140,7 @@ export const trips = [
     duration: "Weekend",
     tripType: "",
     image: "/images/trips/naples/naples-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
   {
     region: "Europe",
@@ -151,6 +151,6 @@ export const trips = [
     duration: "Weekend",
     tripType: "",
     image: "/images/trips/pisa/pisa-hero.webp",
-    href: "/trips/under-construction",
+    href: "/trips/under-construction/",
   },
 ];

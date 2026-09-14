@@ -3,9 +3,11 @@ import Base from "./Base.astro";
 import Nav from "../components/Nav.astro";
 
 const { frontmatter } = Astro.props;
+
+const pageTitle = `${frontmatter.title} — ${frontmatter.duration.replace(/\s*days?$/i, '')}-Day ${frontmatter.tripType} Itinerary | Well Trodden`;
 ---
 
-<Base title={frontmatter.title}>
+<Base title={pageTitle} description={frontmatter.description}>
   <Nav transparent />
 
   <div class="hero" style={`background-image: url('${frontmatter.heroImage}')`}>
