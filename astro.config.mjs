@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://welltrodden.com',
+  site: 'https://www.well-trodden.co.uk',
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()]
 });
