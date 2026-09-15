@@ -1,5 +1,5 @@
 {
-  "name": "cyan-chaos",
+  "name": "well-trodden",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,10 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.19.7",
-    "@astrojs/sitemap": "^2.0.2",
-    "astro": "^2.4.5",
+    "@astrojs/mdx": "^7.0.8",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.2.9",
     "ol": "^10.9.0",
-    "sitemap": "^7.1.1"
+    "vanilla-cookieconsent": "^3.1.0"
   }
 }

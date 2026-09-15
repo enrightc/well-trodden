@@ -10,20 +10,30 @@ interface Props {
 }
 
 const { region, title, summary, duration, tripType, image, href = '#' } = Astro.props;
+
+const comingSoon = href === '#' || href === '/trips/under-construction';
 ---
 
-<a href={href} class="card">
+<a href={href} class:list={['card', { 'is-coming-soon': comingSoon }]}>
   <div class="photo">
     <img src={image} alt={title} loading="lazy" />
+    {comingSoon && <span class="badge">Write-up coming soon</span>}
   </div>
   <div class="body">
     <span class="region">{region}</span>
     <h2 class="title">{title}</h2>
-    <p class="summary">{summary}</p>
-    <div class="pills">
-      <span class="pill">{duration}</span>
-      <span class="pill">{tripType}</span>
-    </div>
+    {summary && <p class="summary">{summary}</p>}
+    {comingSoon && (
+      <p class="summary note">
+        We've done this trip — the full write-up is still in progress.
+      </p>
+    )}
+    {(duration || tripType) && (
+      <div class="pills">
+        {duration && <span class="pill">{duration}</span>}
+        {tripType && <span class="pill">{tripType}</span>}
+      </div>
+    )}
   </div>
 </a>
 
@@ -43,8 +53,34 @@ const { region, title, summary, duration, tripType, image, href = '#' } = Astro.
   }
 
   .photo {
+    position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 0.35rem 0.65rem;
+    border-radius: 100px;
+    box-shadow: 0 1px 4px rgba(26, 25, 22, 0.15);
+  }
+
+  .is-coming-soon .photo img {
+    filter: grayscale(0.4);
+  }
+
+  .summary.note {
+    color: var(--dust);
+    font-style: italic;
   }
 
   .photo img {
