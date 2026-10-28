@@ -8,5 +8,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://www.well-trodden.co.uk',
   trailingSlash: 'always',
-  integrations: [mdx(), sitemap()]
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes('/under-construction/'),
+    }),
+  ],
 });
