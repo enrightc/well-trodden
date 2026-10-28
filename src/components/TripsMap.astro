@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <div class="map-hero">
@@ -31,7 +32,10 @@
   import GeoJSON from "ol/format/GeoJSON";
   import { Fill, Stroke, Style } from "ol/style";
   import Overlay from "ol/Overlay";
-  import { defaults as defaultInteractions, MouseWheelZoom } from "ol/interaction";
+  import {
+    defaults as defaultInteractions,
+    MouseWheelZoom,
+  } from "ol/interaction";
   import { platformModifierKeyOnly } from "ol/events/condition";
   import type { FeatureLike } from "ol/Feature";
 
@@ -134,20 +138,28 @@
       href: "/trips/under-construction/",
     },
     "Czech Republic": {
-      region: "Europe",
       title: "Prague, Czech Republic",
+      region: "Europe",
       duration: "",
       tripType: "",
       image: "/images/trips/prague/prague-hero.webp",
       href: "/trips/under-construction/",
     },
-    "Taiwan": {
+    Taiwan: {
       region: "Asia",
       title: "Taiwan, Asia",
       duration: "",
       tripType: "",
       image: "/images/trips/taiwan/taiwan-hero.webp",
       href: "/trips/under-construction/",
+    },
+    Greece: {
+      title: "Athens, Greece",
+      region: "Europe",
+      duration: "2.5days",
+      tripType: "short",
+      image: "/images/trips/greece/athens/athens-hero.webp",
+      href: "/trips/athens/",
     },
   };
 
@@ -181,16 +193,20 @@
 
   const vectorLayer = new VectorLayer({ source, style: styleCountry });
 
-  const container = document.getElementById('map-popup')!;
-  const closer = document.getElementById('popup-closer')!;
-  const popupCard = container.querySelector('.map-popup-card') as HTMLAnchorElement;
-  const popupImg = container.querySelector('.map-popup-img') as HTMLImageElement;
-  const popupRegion = container.querySelector('.map-popup-region')!;
-  const popupTitle = container.querySelector('.map-popup-title')!;
-  const popupDuration = container.querySelector('.map-popup-duration')!;
-  const popupType = container.querySelector('.map-popup-type')!;
-  const popupPills = container.querySelector('.map-popup-pills') as HTMLElement;
-  const popupNote = container.querySelector('.map-popup-note') as HTMLElement;
+  const container = document.getElementById("map-popup")!;
+  const closer = document.getElementById("popup-closer")!;
+  const popupCard = container.querySelector(
+    ".map-popup-card",
+  ) as HTMLAnchorElement;
+  const popupImg = container.querySelector(
+    ".map-popup-img",
+  ) as HTMLImageElement;
+  const popupRegion = container.querySelector(".map-popup-region")!;
+  const popupTitle = container.querySelector(".map-popup-title")!;
+  const popupDuration = container.querySelector(".map-popup-duration")!;
+  const popupType = container.querySelector(".map-popup-type")!;
+  const popupPills = container.querySelector(".map-popup-pills") as HTMLElement;
+  const popupNote = container.querySelector(".map-popup-note") as HTMLElement;
 
   const overlay = new Overlay({
     element: container,
@@ -253,9 +269,9 @@
 
   if (!isStatic) {
     // Touch devices don't fire pointermove on hover, so fall back to tap-to-open.
-    map.on('singleclick', function (evt) {
+    map.on("singleclick", function (evt) {
       const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f);
-      const name = feature?.get('name');
+      const name = feature?.get("name");
       const trip = name && TRIPS[name];
 
       if (trip) {
@@ -355,7 +371,9 @@
     background: #fff;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(26, 25, 22, 0.08), 0 4px 16px rgba(26, 25, 22, 0.12);
+    box-shadow:
+      0 1px 3px rgba(26, 25, 22, 0.08),
+      0 4px 16px rgba(26, 25, 22, 0.12);
     text-decoration: none;
   }
 

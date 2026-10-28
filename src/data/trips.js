@@ -153,4 +153,15 @@ export const trips = [
     image: "/images/trips/pisa/pisa-hero.webp",
     href: "/trips/under-construction/",
   },
+  {
+    region: "Europe",
+    title: "Athens, Greece",
+    date: "2026-10",
+    summary:
+      "",
+    duration: "2.5 days",
+    tripType: "short stay",
+    image: "/images/trips/greece/athens/athens-hero.webp",
+    href: "/trips/athens/",
+  },
 ];
