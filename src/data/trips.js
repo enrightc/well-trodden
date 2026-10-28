@@ -158,7 +158,7 @@ export const trips = [
     title: "Athens, Greece",
     date: "2026-10",
     summary:
-      "",
+      "Athens at a leisurely pace with a half day trip down the coast",
     duration: "2.5 days",
     tripType: "short stay",
     image: "/images/trips/greece/athens/athens-hero.webp",
